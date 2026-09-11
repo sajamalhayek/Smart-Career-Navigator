@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Career Navigator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Smart Career & Skill Navigator</h1>
+            <p>AI-Powered Resume Analysis, Skill Gap Matching & Personal Learning Roadmap</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <h2>1. Paste Your Resume</h2>
+                <textarea id="resumeInput" placeholder="Paste full resume text here (e.g., Education, Experience, Technical Skills)..."></textarea>
+            </div>
+
+            <div class="card">
+                <h2>2. Target Job Description</h2>
+                <textarea id="jobInput" placeholder="Paste target job role requirements or description here..."></textarea>
+            </div>
+
+            <button id="analyzeBtn" onclick="analyzeProfile()">Analyze My Career Path ✨</button>
+
+            <!-- Loading Spinner -->
+            <div id="loader" class="hidden">
+                <div class="spinner"></div>
+                <p>AI Agents are extracting skills, calculating gaps, and building your roadmap...</p>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results" class="hidden">
+                <div class="results-grid">
+                    <div class="card result-card">
+                        <h3>📊 Match Score</h3>
+                        <div class="score-badge" id="matchScore">0%</div>
+                        <p id="readinessLevel" style="text-align: center; font-weight: bold; color: #94a3b8;"></p>
+                    </div>
+
+                    <div class="card result-card">
+                        <h3>🔑 Candidate Skills</h3>
+                        <ul id="candidateSkills"></ul>
+                    </div>
+
+                    <div class="card result-card">
+                        <h3>⚠️ Missing Skills</h3>
+                        <ul id="missingSkills"></ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🗺️ 4-Week Personal Learning Roadmap</h3>
+                    <div id="roadmapContent"></div>
+                </div>
+
+                <!-- Action Buttons: Download PDF & Interactive Interview -->
+                <div style="display: flex; gap: 15px; justify-content: center; margin-top: 25px; flex-wrap: wrap;">
+                    <a href="/download-report" class="btn" style="background-color: #10b981; width: auto; padding: 12px 24px; text-decoration: none;">
+                        📄 Download PDF Report
+                    </a>
+
+                    <a href="/interview" class="btn btn-secondary" style="width: auto; padding: 12px 24px; text-decoration: none;">
+                        🎙️ Practice AI Interactive Interview Now
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

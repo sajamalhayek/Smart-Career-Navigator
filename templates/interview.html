@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mock Interview</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎙️ AI Interactive Mock Interview</h1>
+            <p>Practice technical and behavioral questions in real-time</p>
+        </header>
+
+        <main>
+            <div class="card chat-card">
+                <div id="chatBox" class="chat-box">
+                    <div class="message system-msg">Connecting to AI Interviewer...</div>
+                </div>
+
+                <div class="input-area">
+                    <input type="text" id="userInput" placeholder="Type your answer here..." onkeypress="handleKeyPress(event)">
+                    <button id="sendBtn" onclick="sendMessage()">Send Answer</button>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="/" class="btn" style="display: inline-block; width: auto; padding: 10px 20px;">← Back to Main Page</a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const socket = io();
+        const chatBox = document.getElementById('chatBox');
+        const userInput = document.getElementById('userInput');
+
+        socket.on('connect', () => {
+            chatBox.innerHTML = '';
+            appendMessage('AI Interviewer', 'Connecting completed. Initializing session...', 'ai');
+            socket.emit('start_interview', { target_role: 'Python Developer' });
+        });
+
+        socket.on('ai_response', (data) => {
+            appendMessage('AI Interviewer', data.message, 'ai');
+        });
+
+        function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            appendMessage('You', text, 'user');
+            socket.emit('user_message', { message: text });
+            userInput.value = '';
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        function appendMessage(sender, text, type) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${type}-msg`;
+            msgDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>
